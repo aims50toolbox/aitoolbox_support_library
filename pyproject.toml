@@ -12,8 +12,8 @@ description = "AIMS 5.0 AI Toolbox Python Support Library"
 readme = "README.md"
 requires-python = ">=3.7"
 dependencies = [
-    "imageio==2.34.1",
-    "numpy==1.26.4"
+    "imageio",
+    "numpy"
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
