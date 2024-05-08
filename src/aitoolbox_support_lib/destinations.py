@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import json
+from .datatypes.rest_encoder import RestEncoder
 
 class Destination(ABC):
     @abstractmethod
@@ -37,4 +38,4 @@ class RESTDestination(Destination):
         return self.values[param_name]
 
     def serialize(self):
-        return json.dumps(self.values)
+        return RestEncoder.encode(self.values)
