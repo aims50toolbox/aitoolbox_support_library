@@ -29,12 +29,15 @@ class TestSources(Sources):
 
 
 class RESTSources(Sources):
-    def __init__(self, req_body):
-        self.req = RestDecoder.decode(req_body)
+    def __init__(self, req):
+        self.req = RestDecoder.decode(req)
 
     def set(self, param_name, value):
         self.req[param_name] = value
 
     def get(self, param_name):
         return self.req[param_name]
+    
+    def __str__(self):
+        return "\n".join((f"{k}: {v}" for k,v in self.req.items()))
 
