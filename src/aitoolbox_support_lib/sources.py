@@ -3,6 +3,9 @@ import json
 from .datatypes.rest_decoder import RestDecoder
 
 
+class SourcesError(Exception):
+    pass
+
 class Sources(ABC):
     @abstractmethod
     def __init__(self):
@@ -13,7 +16,7 @@ class Sources(ABC):
         pass
 
     @abstractmethod
-    def get(self, param_name):
+    def get(self, param_name, dtype = None):
         pass
 
     @abstractmethod
@@ -28,21 +31,32 @@ class TestSources(Sources):
     def set(self, param_name, value):
         self.values[param_name] = value
     
-    def get(self, param_name):
+    def get(self, param_name, dtype = None):
         return self.values[param_name]
 
     def to_dict(self):
         return self.values
 
 class RESTSources(Sources):
-    def __init__(self, req):
-        self.d = RestDecoder.decode(req)
+    def __init__(self, req, test_input = False):
+        if test_input is True:
+            self.d = req
+        else:
+            self.d = RestDecoder.decode(req)
 
     def set(self, param_name, value):
         self.d[param_name] = value
 
-    def get(self, param_name):
-        return self.d[param_name]
+    def get(self, param_name, dtype = None):
+        if param_name not in self.d:
+            raise SourcesError(f"Parameter '{param_name}' is missing in the request")
+
+        val = self.d[param_name]
+
+        if (dtype is not None) and not isinstance(val, dtype):
+            raise SourcesError(f"Wrong type for '{param_name}', required: {dtype}, got {type(val)}")
+
+        return val
     
     def to_dict(self):
         return self.d
