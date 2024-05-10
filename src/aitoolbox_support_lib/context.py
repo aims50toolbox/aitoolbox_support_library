@@ -53,9 +53,10 @@ class NotebookContext(Context):
     
 
 class ServerContext(Context):
-    def __init__(self):
+    def __init__(self, app):
         self.sources = None
         self.dest = destinations.RESTDestination()
+        self.app = app
 
     def set_sources(self, sources):
         self.sources = sources
@@ -68,3 +69,6 @@ class ServerContext(Context):
 
     def get_env(self,key):
         return os.environ[key]
+    
+    def get_app(self):
+        return self.app

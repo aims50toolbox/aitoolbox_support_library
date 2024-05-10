@@ -14,6 +14,10 @@ class Destination(ABC):
     @abstractmethod
     def get(self, param_name):
         pass
+
+    @abstractmethod
+    def clear(self):
+        pass
     
     
 class TestDestination(Destination):
@@ -25,6 +29,9 @@ class TestDestination(Destination):
     
     def get(self, param_name):
         return self.values[param_name]
+    
+    def clear(self):
+        self.values = {}
 
 
 class RESTDestination(Destination):
@@ -43,3 +50,6 @@ class RESTDestination(Destination):
 
     def generate_response(self, handler):
         RestEncoder.encode(handler,self.values,self.single_mime)
+
+    def clear(self):
+        self.values = {}
