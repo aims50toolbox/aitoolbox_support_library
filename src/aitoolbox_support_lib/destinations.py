@@ -30,6 +30,10 @@ class TestDestination(Destination):
 class RESTDestination(Destination):
     def __init__(self):
         self.values = {}
+        self.single_mime = False
+
+    def enable_single_mimetype(self,enable):
+        self.single_mime = enable
 
     def set(self, param_name, value):
         self.values[param_name] = value
@@ -37,5 +41,5 @@ class RESTDestination(Destination):
     def get(self, param_name):
         return self.values[param_name]
 
-    def serialize(self):
-        return RestEncoder.encode(self.values)
+    def generate_response(self, handler):
+        RestEncoder.encode(handler,self.values,self.single_mime)

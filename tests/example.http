@@ -1,0 +1,32 @@
+POST http://localhost:8080/?abn=34&fgfg=12.3&fdfd=geri HTTP/1.1
+Mime-Type: image/png
+
+< /home/hollosi/Pictures/aitoolbox.png
+
+
+###
+POST http://localhost:8080/?abn=34&fgfg=12&fdfd=geri HTTP/1.1
+Mime-Type: application/json
+
+{
+    "param": "test",
+    "test": {
+        "_type": "image/png",
+        "_data": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV8/RJEWBTsUcchQnSyKijhqFYpQIdQKrTqYXPoFTRqSFBdHwbXg4Mdi1cHFWVcHV0EQ/ABxdnBSdJES/5cUWsR4cNyPd/ced+8Af6PCVDM4DqiaZaSTCSGbWxW6XxFEP8IYQ1Ripj4niil4jq97+Ph6F+dZ3uf+HGElbzLAJxDPMt2wiDeIpzctnfM+cYSVJIX4nHjUoAsSP3JddvmNc9FhP8+MGJn0PHGEWCh2sNzBrGSoxFPEMUXVKN+fdVnhvMVZrdRY6578haG8trLMdZpDSGIRSxAhQEYNZVRgIU6rRoqJNO0nPPyDjl8kl0yuMhg5FlCFCsnxg//B727NwuSEmxRKAF0vtv0xDHTvAs26bX8f23bzBAg8A1da219tADOfpNfbWuwI6NsGLq7bmrwHXO4A0SddMiRHCtD0FwrA+xl9Uw4YuAV619zeWvs4fQAy1FXqBjg4BEaKlL3u8e6ezt7+PdPq7wd4FXKp+2ddwwAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+gEEA0vNzEjzCEAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAANUlEQVQoz2P8JSvLAANsjx8zEAJw9WyPHzMxkAt+ycqSr5mBgWFUM6maiYlbfDazPX5MnhEAjMMMrG1D8NUAAAAASUVORK5CYII="
+    },
+    "arr": [ 3.4, 4.5, 1.2, 3.4]
+}
+
+###
+POST http://localhost:8080/?abn=34&fgfg=12&fdfd=geri HTTP/1.1
+Mime-Type: application/json
+
+{
+    "param": "test"
+}
+
+###
+POST http://localhost:8080/ HTTP/1.1
+Mime-Type: image/png
+
+< /home/hollosi/Pictures/aitoolbox.png

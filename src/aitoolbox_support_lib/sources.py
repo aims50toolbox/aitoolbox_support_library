@@ -15,6 +15,10 @@ class Sources(ABC):
     @abstractmethod
     def get(self, param_name):
         pass
+
+    @abstractmethod
+    def to_dict(self):
+        pass
     
     
 class TestSources(Sources):
@@ -27,17 +31,22 @@ class TestSources(Sources):
     def get(self, param_name):
         return self.values[param_name]
 
+    def to_dict(self):
+        return self.values
 
 class RESTSources(Sources):
     def __init__(self, req):
-        self.req = RestDecoder.decode(req)
+        self.d = RestDecoder.decode(req)
 
     def set(self, param_name, value):
-        self.req[param_name] = value
+        self.d[param_name] = value
 
     def get(self, param_name):
-        return self.req[param_name]
+        return self.d[param_name]
     
+    def to_dict(self):
+        return self.d
+
     def __str__(self):
-        return "\n".join((f"{k}: {v}" for k,v in self.req.items()))
+        return "\n".join((f"{k}: {v} [{type(v)}]" for k,v in self.d.items()))
 

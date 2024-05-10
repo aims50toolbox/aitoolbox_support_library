@@ -2,7 +2,9 @@ import json
 import logging
 
 from base64 import b64decode
-import imageio
+import imageio.v3 as iio
+
+from .image import Image
 
 class RestDecoder():
     def decode(req):
@@ -14,7 +16,7 @@ class RestDecoder():
                 arguments = json.loads(req.body)
             elif mimeType.startswith('image/'):
                 arguments = RestDecoder.decode_query_arguments(req)
-                arguments["image"] = RestDecoder.decode_image(mimeType,req.body,False)
+                arguments["image"] = Image(RestDecoder.decode_image(mimeType,req.body,False))
         else:
             arguments = RestDecoder.decode_query_arguments(req)
 
@@ -27,14 +29,28 @@ class RestDecoder():
         if isinstance(arg, dict) and "_type" in arg:
             mime = arg["_type"]
             if mime.startswith("image/"):
-                return RestDecoder.decode_image(mime,arg["_data"])
+                return Image(RestDecoder.decode_image(mime,arg["_data"]))
 
         return arg
     
     def decode_query_arguments(req):
-        return { k: v[0].decode('utf-8') for k,v in req.arguments.items() }
+        def convert_strings(s):
+            if isinstance(s, str):
+                try:
+                    return int(s)
+                except:
+                    pass
+
+                try:
+                    return float(s)
+                except:
+                    return s
+            else:
+                return s
+                
+        return { k: convert_strings(v[0].decode('utf-8')) for k,v in req.arguments.items()}
 
     def decode_image(mime,data,is_base64 = True):
         if is_base64 is True:
             data = b64decode(data)
-        return imageio.imread(data)
+        return iio.imread(data)
