@@ -16,7 +16,7 @@ class Sources(ABC):
         pass
 
     @abstractmethod
-    def get(self, param_name, dtype = None):
+    def get(self, param_name, dtype = None, default_val = None):
         pass
 
     @abstractmethod
@@ -31,7 +31,10 @@ class TestSources(Sources):
     def set(self, param_name, value):
         self.values[param_name] = value
     
-    def get(self, param_name, dtype = None):
+    def get(self, param_name, dtype = None, default_val = None):
+        if param_name not in self.values:
+            return default_val
+        
         return self.values[param_name]
 
     def to_dict(self):
@@ -47,9 +50,12 @@ class RESTSources(Sources):
     def set(self, param_name, value):
         self.d[param_name] = value
 
-    def get(self, param_name, dtype = None):
+    def get(self, param_name, dtype = None, default_val = None):
         if param_name not in self.d:
-            raise SourcesError(f"Parameter '{param_name}' is missing in the request")
+            if default_val is None:
+                raise SourcesError(f"Parameter '{param_name}' is missing in the request")
+            else:
+                return default_val
 
         val = self.d[param_name]
 
