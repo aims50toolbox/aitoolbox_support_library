@@ -44,6 +44,13 @@ class RestDecoder():
                 try:
                     return float(s)
                 except:
+                    pass
+
+                if s.lower() == "true":
+                    return True
+                elif s.lower() == "false":
+                    return False
+                else:
                     return s
             else:
                 return s
