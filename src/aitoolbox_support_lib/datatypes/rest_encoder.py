@@ -19,6 +19,10 @@ class RestEncoder():
             j = { k: RestEncoder.encode_argument(v) for k,v in kvps.items() }
             handler.write(json.dumps(j))
 
+    def encode_to_jsonstring(kvps):
+        j = { k: RestEncoder.encode_argument(v) for k,v in kvps.items() }
+        return json.dumps(j)
+
     def encode_argument(arg):
         if isinstance(arg, (int, float, complex, str)):
             return arg

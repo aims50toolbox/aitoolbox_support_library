@@ -18,6 +18,10 @@ class Destination(ABC):
     @abstractmethod
     def clear(self):
         pass
+
+    @abstractmethod
+    def serialize(self):
+        pass
     
     
 class TestDestination(Destination):
@@ -29,6 +33,9 @@ class TestDestination(Destination):
     
     def get(self, param_name):
         return self.values[param_name]
+    
+    def serialize(self):
+        return RestEncoder.encode_to_jsonstring(self.values)
     
     def clear(self):
         self.values = {}
@@ -50,6 +57,9 @@ class RESTDestination(Destination):
 
     def generate_response(self, handler):
         RestEncoder.encode(handler,self.values,self.single_mime)
+
+    def serialize(self):
+        return RestEncoder.encode_to_jsonstring(self.values)
 
     def clear(self):
         self.values = {}
